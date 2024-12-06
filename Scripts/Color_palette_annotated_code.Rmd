@@ -1,0 +1,151 @@
+---
+title: "Native Plant Color Palette"
+author: "Kassandra Jensen"
+date: "2024-12-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Libraries
+```{r}
+library(ggplot2)
+```
+
+## Plant colors
+I am making a package based on the native plants found throughout my surveys. The colors were extracted from plant photos using [this website](https://redketchup.io/color-picker#google_vignette). Each of the plants will have 5 associated colors. 
+```{r}
+#Make a vector for each plant:
+
+#Cyanea hirtella
+CYAHIR <- c(
+  "inner_flower" = "#CB81B2",
+  "outer_flower" = "#F8FAF9",
+  "stigma" = "#C9C468",
+  "leaf" = "#A7CB0F",
+  "leaf2" = "#565A10"
+)
+
+#Touchardia latifolia
+TOULAT <- c(
+  "berry" = "#E67637",
+  "fruit" = "#404E2A",
+  "leaf" = "#638D27",
+  "stem" = "#A2A94C",
+  "vein" = "#7B3926"
+)
+
+#Hibiscus waimeae subsp. hannerae
+HIBWAIHAN <- c(
+  "petals" = "#FDFDFD",
+  "stigma" = "#FD3C5B",
+  "pollen" = "#D5953E",
+  "leaf_rust"= "#C95646",
+  "leaf" = "#77A337"
+)
+
+#Pipturus kauiensis
+PIPKAU <- c(
+  "leaf" = "#80AD46",
+  "vein" = "#A74A55",
+  "fruit" = "#DEE0DD",
+  "seed" = "#1C201F",
+  "underside_leaf" = "#FDFFF2"
+)
+
+#Kadua acuminata
+KADACU <-c(
+  "leaf" = "#478A21",
+  "leaf2" = "#96879E",
+  "leaf3" = "#85C100",
+  "flower" = "#D2EAC8",
+  "anther" = "#1D1307"
+)
+
+#Boehmeria grandis
+BOEGRA <- c(
+  "leaf" = "#779D82",
+  "inflorescence" = "#B62552",
+  "flower" = "#DADEE8",
+  "vein" = "#9B4155",
+  "underside_leaf" = "#85A04D"
+)
+
+#Psychotria mariniana
+PSYMAR <- c(
+  "leaf" = "#72A03D",
+  "fruit" = "#F99F2F",
+  "unripe_fruit" = "#73A301",
+  "flower" = "#E7E7E7",
+  "bark" = "#483A37"
+)
+
+#Vitex rotundifolia
+VITROT <- c(
+  "flower" = "#9A71F3",
+  "leaf" = "#C8DEBA",
+  "filament" = "#A893D4",
+  "hairs" = "#FAFFFB",
+  "flower2" = "#B98FF1"
+)
+
+#Cyrtandra sp.
+CYRTANDRA <- c(
+  "leaf" = "#91C44E",
+  "leaf2" = "#74A35D",
+  "flower" = "#CFE1D1",
+  "flowerparts" = "#41361A",
+  "seed" ="#DDAD59"
+)
+
+```
+
+# Make a list of all the palette names
+```{r}
+plant_palettes <- list(
+  CYAHIR = CYAHIR,
+  TOULAT = TOULAT,
+  HIBWAIHAN = HIBWAIHAN,
+  PIPKAU = PIPKAU,
+  KADACU = KADACU,
+  BOEGRA = BOEGRA,
+  PSYMAR = PSYMAR,
+  VITROT = VITROT,
+  CYRTANDRA = CYRTANDRA
+)
+```
+
+# Function
+This is a function so that you can use the six letter species code to find the associated color pallete. 
+```{r}
+plantpalette <- function(palette_name) {                 ## Make function called plantpalette, manipulating "palette_name" variable
+  if (!palette_name %in% names(plant_palettes)) {        ## calls plant_palettes to look for name, %in% checks if the palette name exists, ! makes it so if not found, the "!" makes it a negative statement so that if the plant name isn't found in the list, then the stop message is given
+    stop("Palette not found. Available palettes: ",     ## stop: stops function to give the error, paste: puts the names as a sting but separates by a comma
+         paste(names(plant_palettes), collapse = ", "))
+  }
+  return(plant_palettes[[palette_name]])                ## accesses the palette with the name given and returns the palette!
+}
+
+## Example
+plantpalette("CYRTANDRA")                                  ##it worked! yay!
+```
+# Showcase the colors!
+Made another function to quickly showcase the color palettes. 
+```{r}
+example_plot <- function(palette_name) {                    ## function name = example_plot, manipulating "palette_name" variable
+  colors <- plantpalette(palette_name)                      ## gets the colors of the palette you name, uses the previous function
+  par(bg = "lightgray")                                     ## this just makes the background grey so it's easier to see the lighter colors
+  barplot(rep(1, length(colors)),                           ## makes a barplot, with a vector of 1s with the amount of colors in the package
+          col = colors,                                     ## calls the colors in the package called
+          border = NA,                                      ## remove borders so it looks nicer
+          main = palette_name)                              ## makes the title the plant code
+}
+
+## Test all palettes using a loop! Thankfully we just learned this! lol
+## Calls a palette then loops it through the function
+for (palette in names(plant_palettes)) {                    ## calls all the names in plant_palettes, loops it for each palette 
+  example_plot(palette)                                     ## calls the function above
+}
+
+```
