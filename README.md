@@ -23,4 +23,6 @@ In this repository you will find:
  
 # [Shiny app link](https://jensenkl.shinyapps.io/Jensen_Final_Project_app/)
 
+# [HawaiianPlantPalette github](https://github.com/jensen-kl/HawaiianPlantPalette)
+
 
