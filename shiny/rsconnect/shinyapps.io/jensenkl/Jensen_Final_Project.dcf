@@ -1,0 +1,12 @@
+name: Jensen_Final_Project
+title: Jensen_Final_Project
+username: jensenkl
+account: jensenkl
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13535553
+bundleId: 9470590
+url: https://jensenkl.shinyapps.io/Jensen_Final_Project/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

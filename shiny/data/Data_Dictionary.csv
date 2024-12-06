@@ -1,0 +1,11 @@
+Name,Plot_name,Description
+species,Species,Vascular plant spcies name 
+gulch,Gulch,Name or number of gulch working in
+plant_number,Plant Number,Number assigned to vascular plant within each gulch and species 
+population_number,Population Number,Number assigned the each population within each gulch
+life_stage,Life Stage,"Category of life stage: seedling, juvenile, adult"
+size_in,Size (inches),The size of the plant from base of stem to apical bud
+vigor,Vigor,"Health of vascular plant measured on a 0-4 scale; 0 = dead - 4= perfectly health, no yellowing of leaves, no clear predation"
+degree_surrounded,Degree Surrounded,"Amount of bryophytes present at the base of the vascular plant, measured on a 0-4 scale; 0= no bryophytes - 4= full surrounded by bryophytes, no roots exposed"
+Dominant_bryophyte,Dominant Bryophyte,"Bryophyte species with the highest presence at the plant, recorded under the 6 letter species code"
+Notes,Notes,Any notes about the site or plant

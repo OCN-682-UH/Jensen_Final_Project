@@ -1,0 +1,13 @@
+name: Jensen_Final_Project_app
+title: Jensen_Final_Project_app
+username: jensenkl
+account: jensenkl
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13535364
+bundleId: 9470739
+url: https://jensenkl.shinyapps.io/Jensen_Final_Project_app/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: data/Data_Dictionary.csv
