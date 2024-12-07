@@ -1,0 +1,449 @@
+---
+title: "Final_Project_Description"
+author: "Kassandra Jensen"
+date: "2024-12-06"
+output: 
+  html_document:
+    theme: cerulean
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Research overview
+I will be using data collected for my thesis that explores the relationship between bryophytes (mosses, liverworts, and hornworts) and native vascular plants. 
+
+
+**My main question is:**
+
+Are there significant associations between the presence/abundance of bryophytes and native vascular plants? 
+
+**Secondary questions include:**
+
+1. Which flowering plant species are most associated with bryophytes?
+
+2. How can this influence restoration techniques?
+
+**Sampling methods:**
+In order to explore this relationship, I surveyed every single native plant in three gulches in a valley located in northwest Kaua‘i. I noted the relative life stage (seedling, juvenile, or adult) and I evaluated the amount of bryophytes present at the base of each plantby using a 0-4 scale. 
+
+* 0 = No bryophytes present at all.
+
+* 1 = Some bryophytes present, but less than 10% coverage.
+
+* 2 = Bryophytes present, less than 60% coverage.
+
+* 3 = Bryophytes present, around 60-90% coverage.
+
+* 4 = Bryophytes present, 90-100% coverage
+
+***
+
+# Final Project overview
+My three outputs for the OCN 682 final project are:
+
+1. a color package showcasing plants and their associated colors
+
+2. a shiny app showcasing my results
+
+3. a simple barplot to demonstrate the results of the surveys
+
+4. a bonus output is this markdown document because it was the easiest way to show all of my code with notes for all of my outputs. 
+
+## Output 1: Hawaiian Plant Color Package
+This is actually somewhat straighforward and was really fun!
+
+I had help from a few websites like [this one](https://cloud.r-project.org/web/packages/palettes/vignettes/creating-packages.html) and [this one](https://tinyheero.github.io/jekyll/update/2015/07/26/making-your-first-R-package.html), as well as multiple forums, and some help from *chat GPT* when I got stuck, which is debatable whether it really helped or not, tbh. 
+
+Step 1: Create a new directory, choose r package, and then you're good. 
+
+Step 2: Write an accurate description in the DESCRIPTION file it automatically gives you. People also use documentation from roxygen but I'm not there yet.
+
+Step 3: Put all functions into one script and all other parts of the package into another and place both in the R folder. 
+
+Step 4: Obtain a license (optional)- I got a basic MIT license which is a simple one, literally one line of code, and grants permission to whoever uses the package. This isn't necessary but the forums said to do it. ¯\_(ツ)_/¯
+
+Step 5: Upload to a STAND ALONE github repository. I tried to put this in my final project repo and my shiny app would not allow it to run. I literally had to start over completely because I made a huge mess of troubleshooting. (BTW- if trying to use with shinyapps.io you need to give permission to access private repos on the website.)
+
+### Anyways- here's the code.
+### Getting the colors
+I am making a package based on the native plants found throughout my surveys. The colors were extracted from plant photos using [this website](https://redketchup.io/color-picker#google_vignette). Each of the plants will have 5 associated colors.
+
+### Libraries
+```{r}
+library(ggplot2) ## this is only to showcase the colors.
+```
+
+### Make a vector for each plant:
+The colors need to go in their own script in the .r folder. 
+```{r}
+#Cyanea hirtella
+CYAHIR <- c(
+  "inner_flower" = "#CB81B2",
+  "outer_flower" = "#F8FAF9",
+  "stigma" = "#C9C468",
+  "leaf" = "#A7CB0F",
+  "leaf2" = "#565A10"
+)
+
+#Touchardia latifolia
+TOULAT <- c(
+  "berry" = "#E67637",
+  "fruit" = "#404E2A",
+  "leaf" = "#638D27",
+  "stem" = "#A2A94C",
+  "vein" = "#7B3926"
+)
+
+#Hibiscus waimeae subsp. hannerae
+HIBWAIHAN <- c(
+  "petals" = "#FDFDFD",
+  "stigma" = "#FD3C5B",
+  "pollen" = "#D5953E",
+  "leaf_rust"= "#C95646",
+  "leaf" = "#77A337"
+)
+
+#Pipturus kauiensis
+PIPKAU <- c(
+  "leaf" = "#80AD46",
+  "vein" = "#A74A55",
+  "fruit" = "#DEE0DD",
+  "seed" = "#1C201F",
+  "underside_leaf" = "#FDFFF2"
+)
+
+#Kadua acuminata
+KADACU <-c(
+  "leaf" = "#478A21",
+  "leaf2" = "#96879E",
+  "leaf3" = "#85C100",
+  "flower" = "#D2EAC8",
+  "anther" = "#1D1307"
+)
+
+#Boehmeria grandis
+BOEGRA <- c(
+  "leaf" = "#779D82",
+  "inflorescence" = "#B62552",
+  "flower" = "#DADEE8",
+  "vein" = "#9B4155",
+  "underside_leaf" = "#85A04D"
+)
+
+#Psychotria mariniana
+PSYMAR <- c(
+  "leaf" = "#72A03D",
+  "fruit" = "#F99F2F",
+  "unripe_fruit" = "#73A301",
+  "flower" = "#E7E7E7",
+  "bark" = "#483A37"
+)
+
+#Vitex rotundifolia
+VITROT <- c(
+  "flower" = "#9A71F3",
+  "leaf" = "#C8DEBA",
+  "filament" = "#A893D4",
+  "hairs" = "#FAFFFB",
+  "flower2" = "#B98FF1"
+)
+
+#Cyrtandra sp.
+CYRTANDRA <- c(
+  "leaf" = "#91C44E",
+  "leaf2" = "#74A35D",
+  "flower" = "#CFE1D1",
+  "flowerparts" = "#41361A",
+  "seed" ="#DDAD59"
+)
+
+```
+
+### Make a list of all the palette names
+```{r}
+plant_palettes <- list(
+  CYAHIR = CYAHIR,
+  TOULAT = TOULAT,
+  HIBWAIHAN = HIBWAIHAN,
+  PIPKAU = PIPKAU,
+  KADACU = KADACU,
+  BOEGRA = BOEGRA,
+  PSYMAR = PSYMAR,
+  VITROT = VITROT,
+  CYRTANDRA = CYRTANDRA
+)
+```
+
+### Functions
+The functions need to go in their own file in the R folder of your package files. 
+
+#### Function 1
+This is a function so that you can use the six letter species code to find the associated color pallete. 
+```{r}
+plantpalette <- function(palette_name) {                 ## Make function called plantpalette, manipulating "palette_name" variable
+  if (!palette_name %in% names(plant_palettes)) {        ## calls plant_palettes to look for name, %in% checks if the palette name exists, ! makes it so if not found, the "!" makes it a negative statement so that if the plant name isn't found in the list, then the stop message is given
+    stop("Palette not found. Available palettes: ",     ##stop-stops the function to give the error, paste: puts the names as a sting but separates by a comma
+         paste(names(plant_palettes), collapse = ", "))
+  }
+  return(plant_palettes[[palette_name]])                ## accesses the palette with the name given and returns the palette!
+}
+
+## Example
+plantpalette("CYRTANDRA")                                  ##it worked! yay!
+```
+### Showcase the colors!
+#### Function 2
+Made another function to quickly showcase the color palettes. 
+```{r}
+example_plot <- function(palette_name) {                    ## function name = example_plot, manipulating "palette_name" variable
+  colors <- plantpalette(palette_name)                      ## gets the colors of the palette you name, uses the previous function
+  par(bg = "lightgray")                                     ## this just makes the background grey so it's easier to see the lighter colors
+  barplot(rep(1, length(colors)),                           ## makes a barplot, with a vector of 1s with the amount of colors in the package
+          col = colors,                                     ## calls the colors in the package called
+          border = NA,                                      ## remove borders so it looks nicer
+          main = palette_name)                              ## makes the title the plant code
+}
+
+## Test all palettes using a loop! Thankfully we just learned this! lol
+## Calls a palette then loops it through the function
+for (palette in names(plant_palettes)) {                    ## calls all the names in plant_palettes, loops it for each palette 
+  example_plot(palette)                                     ## calls the function above
+}
+
+```
+
+### Other things you may need:
+You need report any dependencies the package has from other packages. In the NAMESPACE file, you just list one those might be. This is what I put to get mine to run:
+
+importFrom("graphics", "par", "barplot")
+
+
+## Output 2 & 3: Shiny app and barplot
+The barplots are pretty straightforward and uninspired, however I feel that this is the best way to showcase the survey results, and I think the color package and shiny app kinda make up for it a little.
+
+I used old code that I made to make these barplots and readjusted them for the shiny app, which I will show below. 
+
+**Instead of showing the shiny app, I will be using markdown, so this won't actually run.**
+
+### Load libraries
+```{r, eval=FALSE}
+library(shiny)              # Creates interactive apps
+library(tidyverse)          # Data manipulation and visualization
+library(HawaiianPlantPalette)  # Custom color palette
+library(patchwork)          # Combines multiple plots
+library(here)               # File path management
+```
+
+### Load the dataset
+```{r, eval=FALSE}
+plant_surveys <- read_csv("data/plant_surveys.csv")
+```
+
+### Clean data
+```{r, eval=FALSE}
+plant_surveys_clean <- plant_surveys %>% ## call data
+  filter(life_stage != "n/a") %>%    ## filter out any n/a's in life_stage
+  filter(life_stage != "N/a") %>%    ## filter out any N/a's in life_stage (different case)
+  filter(vigor != "n/a") %>%         #### filter out any n/a's in vigor
+  filter(degree_surrounded != "n/a") ## filter out any n/a's in degree_surrounded
+```
+
+### Test the color palette downloaded from the package
+These are the functions associated with the color package, more on this later. 
+```{r, eval=FALSE}
+example_plot("KADACU")
+plantpalette("TOULAT")
+```
+
+### Make shiny app!
+### Starting with ui --> this is the user interface and is what people will interact with.
+```{r, eval=FALSE}
+ui <- fluidPage(
+  ## add title
+  
+  titlePanel("Bryophyte Associations with Vascular Plants"),
+  
+  ## add description
+  p("This app allows you to see the relationship between bryophytes and vascular plants. 
+     You can choose to view specific plants, as well as the color package that you'd like the graph to be showcased in. 
+     Each plant has 5 associated colors that were extracted from photos of them. Many of the colors represent their leaves,
+     fruit, flowers, bark, or other physical characteristics."),
+  
+  ## add more description
+  p("The 0-4 scale represented in the graphs showcases the degree to which the bryophytes surround the vascular plant that
+     was evaluated."),
+  p("0 = No bryophytes present at all."),
+  p("1 = Some bryophytes present, but less than 10% coverage."),
+  p("2 = Bryophytes present, less than 60% coverage."),
+  p("3 = Bryophytes present, around 60-90% coverage."),
+  p("4 = Bryophytes present, 90-100% coverage"),
+  
+  ## make layout
+  sidebarLayout(
+    
+    ## include side bar drop down panel
+    sidebarPanel(
+      
+      ## select what the input will be - this is also used in the server
+      selectInput(
+        inputId = "species_name",
+        
+        ## name of the dropdown bar
+        label = "Select a species:",
+        
+        ## choices based on data fram
+        choices = c("Cyrtandra_wainihaensis", "Pipturus_kauaiensis", 
+                    "Touchardia_latifolia", "Boehmeria_grandis", 
+                    "Cyanea_spp", "Cyrtandra_confertiflora", 
+                    "Psychotria_mariniana", 
+                    "Antidesma_platyphyllum", "Hibiscus_waimeae_subsp_hannerae", 
+                    "Kadua_acuminata", "Charpentiera_densiflora", 
+                    "Cyrtandra_wawrae", "Kadua_spp"),
+        
+        ## start with this species
+        selected = "Cyrtandra_wainihaensis",
+        width = "100%"
+      ),
+      
+      # this adds a spacer for layout
+      br(), 
+      
+      ## add another drop down menu
+      selectInput(
+        
+         ## select what the input will be - this is also used in the server
+        inputId = "color_palette",
+        
+        ## what the drop down menu says
+        label = "Select a color palette:",
+        
+        ## choices based on colors available
+        choices = c("CYRTANDRA", "PIPKAU", "TOULAT", "BOEGRA", "CYAHIR", 
+                    "PSYMAR", "HIBWAIHAN", "KADACU", "VITROT"),  
+        
+        ## default selection 
+        selected = "CYRTANDRA",
+        width = "100%"
+      )
+    ),
+    
+     # Main panel that will display the output
+    mainPanel(
+      plotOutput(outputId = "combined_plots")
+    )
+  )
+)
+```
+
+### Moving on to the server
+The code for this is pretty long, so I will just do a portion.
+```{r, eval=FALSE}
+server <- function(input, output) {
+  
+  ## render the output (this goes back to the ui where we names the output ID)
+  output$combined_plots <- renderPlot({
+    
+    ## Get the selected species and color palette (this also goes back to the UI names)
+    species_name <- input$species_name
+    selected_palette <- input$color_palette
+    
+    ## use the color package, plantpalette is a function within the package and we just named selected_palette
+    colors <- HawaiianPlantPalette::plantpalette(selected_palette)
+    
+    ## assign colors uniformly to degree_surrounded levels
+    degree_levels <- c("0", "1", "2", "3", "4") 
+    
+    ## setNames assigns names to a list, this eliminates a bunch of steps of having to rename per plant per category
+    ## seq_along makes it so that the colors match up with the degree levels, that was a lucky coincidence that there were 5 in each category!
+    color_mapping <- setNames(colors[seq_along(degree_levels)], degree_levels)
+    
+    ## Plot for All Plants
+    ## get total count for all the species 
+    plant_surveys_all <- plant_surveys_clean %>%
+      filter(species == species_name) %>%  ## filter data for selected species (matches the ui)
+      group_by(degree_surrounded) %>% ## group by degree_surrounded
+      summarise(total_count = n()) %>% ## get total count
+      mutate(proportion = total_count / sum(total_count) * 100) %>% ## get proportion
+      ungroup() ## ungroup after summarized 
+    
+    all_plot <- ggplot(plant_surveys_all, aes(x = factor(degree_surrounded),  ## make ggplot, x = degreee surrounded
+                                              y = proportion,                 ## y = proportion variable we made
+                                              fill = factor(degree_surrounded))) + ## degree surrounded= factor bc could be mistaken for continuous variable, fill so it has different colors
+      geom_bar(stat = "identity", position = "dodge", color = "black") + ## geom_bar
+      geom_text(aes(label = total_count),                               ## label with total count so we know how much in each category
+                position = position_dodge(width = 0.9),                 ## aesthetics
+                vjust = -0.5, size = 3) +                               ## aestetics
+      labs(x = "Degree Surrounded",                                    ## label
+           y = "Proportion of total", 
+           title = paste(species_name, "All Stages")) +
+      scale_fill_manual(values = color_mapping) +                       ## Apply the selected palette
+      scale_x_discrete(limits = c("0", "1", "2", "3", "4")) +          ## make breaks for each category
+      theme_gray() +                                                  ## grey theme so the white colors show up
+      theme(legend.position = "none")                                ## no need for legen
+    
+    ## Seedlings/juveniles plot
+    ## basically do the same thing but filter for non-adult life stages!
+    seedlings_only <- plant_surveys_clean %>%
+      filter(species == species_name, life_stage != "adult") %>% ## filter for anything that isn't an adult
+      group_by(species, degree_surrounded) %>%
+      summarise(total_count = n()) %>%
+      mutate(proportion = total_count / sum(total_count) * 100) %>%
+      ungroup()
+    
+    seedlings_plot <- ggplot(seedlings_only, aes(x = factor(degree_surrounded), y = proportion, fill = factor(degree_surrounded))) +
+      geom_bar(stat = "identity", position = "dodge", color = "black") +
+      geom_text(aes(label = total_count), 
+                position = position_dodge(width = 0.9), 
+                vjust = -0.5, size = 3) +
+      labs(x = "Degree Surrounded", 
+           y = "Proportion of total", 
+           title = paste(species_name, "-Seedlings/Juveniles")) +
+      scale_fill_manual(values = color_mapping) + 
+      scale_x_discrete(limits = c("0", "1", "2", "3", "4")) +
+      theme_gray() +
+      theme(legend.position = "none")
+    
+    ## Adults only plot
+    ## do the same thing but filter for adult only life stages
+    adults_only <- plant_surveys_clean %>%
+      filter(species == species_name, life_stage == "adult") %>% ## filter for anything that IS adult
+      group_by(species, degree_surrounded) %>%
+      summarise(total_count = n()) %>%
+      mutate(proportion = total_count / sum(total_count) * 100) %>%
+      ungroup()
+    
+    adults_plot <- ggplot(adults_only, aes(x = factor(degree_surrounded), y = proportion, fill = factor(degree_surrounded))) +
+      geom_bar(stat = "identity", position = "dodge", color = "black") +
+      geom_text(aes(label = total_count), 
+                position = position_dodge(width = 0.9), 
+                vjust = -0.5, size = 3) +
+      labs(x = "Degree Surrounded", 
+           y = "Proportion of total", 
+           title = paste(species_name, "-Adults")) +
+      scale_fill_manual(values = color_mapping) +  # Apply the selected palette
+      scale_x_discrete(limits = c("0", "1", "2", "3", "4")) +
+      theme_gray() +
+      theme(legend.position = "none")
+    
+    # Combine plots
+    combined_plots <- wrap_plots(seedlings_plot, adults_plot, all_plot) +     ###use the patchword library to wrap all these plots together
+      plot_layout(guides = "collect")            ## this actually makes the legends all combine and isn't necessary but I'm afraid if i change anything at this point that my shiny app will just collapse
+    
+    combined_plots   ## shows the combined graphs
+  })
+}
+```
+
+### Run the application 
+Woohoo!!
+```{r, eval=FALSE}
+shinyApp(ui = ui, server = server)
+```
+
+# [Completed shiny app!](https://jensenkl.shinyapps.io/Jensen_Final_Project_app/)
+# [link to color package repo](https://github.com/jensen-kl/HawaiianPlantPalette)
+
+
