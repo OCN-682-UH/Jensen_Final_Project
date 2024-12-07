@@ -1672,7 +1672,7 @@ package files.</p>
 find the associated color pallete.</p>
 <pre class="r"><code>plantpalette &lt;- function(palette_name) {                 ## Make function called plantpalette, manipulating &quot;palette_name&quot; variable
   if (!palette_name %in% names(plant_palettes)) {        ## calls plant_palettes to look for name, %in% checks if the palette name exists, ! makes it so if not found, the &quot;!&quot; makes it a negative statement so that if the plant name isn&#39;t found in the list, then the stop message is given
-    stop(&quot;Palette not found. Available palettes: &quot;,     ## stop: stops function to give the error, paste: puts the names as a sting but separates by a comma
+    stop(&quot;Palette not found. Available palettes: &quot;,     ##stop-stops the function to give the error, paste: puts the names as a sting but separates by a comma
          paste(names(plant_palettes), collapse = &quot;, &quot;))
   }
   return(plant_palettes[[palette_name]])                ## accesses the palette with the name given and returns the palette!
